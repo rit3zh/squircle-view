@@ -1,6 +1,6 @@
 # SquircleView
 
-![squircle-view](.github/banner.png)
+<img width="1782" height="577" alt="figma-squircle-preview" src="https://github.com/user-attachments/assets/54546bb1-ded3-4e31-9de5-96e341b5805d" />
 
 A drop-in React Native `View` with smooth, continuous corners.
 
