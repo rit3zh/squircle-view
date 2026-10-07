@@ -4,11 +4,16 @@
   "main": "index.js",
   "dependencies": {
     "@expo/metro-runtime": "~57.0.16",
+    "@react-native-community/slider": "5.2.0",
     "expo": "~57.0.27",
+    "expo-image": "~57.0.5",
     "expo-status-bar": "~57.0.1",
+    "expo-symbols": "~57.0.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.86.3",
+    "react-native-gesture-handler": "~2.32.0",
+    "react-native-reanimated": "4.5.1",
     "react-native-web": "~0.21.0"
   },
   "scripts": {
@@ -22,6 +27,7 @@
   },
   "private": true,
   "devDependencies": {
+    "babel-preset-expo": "~57.0.14",
     "react-native-builder-bob": "^0.43.1",
     "react-native-monorepo-config": "^0.4.0"
   }

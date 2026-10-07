@@ -1,8 +1,10 @@
 buildscript {
   ext.SquircleView = [
-    kotlinVersion: "2.0.21",
+    kotlinVersion: "2.1.20",
     minSdkVersion: 24,
-    compileSdkVersion: 36
+    compileSdkVersion: 36,
+    targetSdkVersion: 36,
+    ndkVersion: "27.1.12297006"
   ]
 
   ext.getExtOrDefault = { prop ->
@@ -20,11 +22,14 @@ buildscript {
 
   dependencies {
     classpath "com.android.tools.build:gradle:8.7.2"
-    // noinspection DifferentKotlinGradleVersion
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${getExtOrDefault('kotlinVersion')}"
   }
 }
 
+def reactNativeArchitectures() {
+  def value = rootProject.findProperty("reactNativeArchitectures")
+  return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
+}
 
 apply plugin: "com.android.library"
 
@@ -32,16 +37,34 @@ if (project.extensions.findByName("kotlin") == null) {
   apply plugin: "kotlin-android"
 }
 
-
 apply plugin: "com.facebook.react"
 
 android {
   namespace "com.squircleview"
 
   compileSdkVersion getExtOrDefault("compileSdkVersion")
+  ndkVersion getExtOrDefault("ndkVersion")
 
   defaultConfig {
     minSdkVersion getExtOrDefault("minSdkVersion")
+    targetSdkVersion getExtOrDefault("targetSdkVersion")
+
+    externalNativeBuild {
+      cmake {
+        arguments "-DANDROID_STL=c++_static"
+        abiFilters(*reactNativeArchitectures())
+      }
+    }
+  }
+
+  externalNativeBuild {
+    cmake {
+      path "CMakeLists.txt"
+    }
+  }
+
+  buildFeatures {
+    buildConfig false
   }
 
   compileOptions {

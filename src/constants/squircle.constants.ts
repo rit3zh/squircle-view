@@ -1,0 +1,3 @@
+const DEFAULT_BORDER_SMOOTHING: number = 0;
+
+export { DEFAULT_BORDER_SMOOTHING };

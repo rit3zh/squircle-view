@@ -1,8 +1,10 @@
+const fs = require('fs');
 const path = require('path');
-const { getDefaultConfig } = require('@expo/metro-config');
+const { getDefaultConfig } = require('expo/metro-config');
 const { withMetroConfig } = require('react-native-monorepo-config');
 
-const root = path.resolve(__dirname, '..');
+const dirname = fs.realpathSync.native(__dirname);
+const root = path.resolve(dirname, '..');
 
 /**
  * Metro configuration
@@ -10,9 +12,9 @@ const root = path.resolve(__dirname, '..');
  *
  * @type {import('metro-config').MetroConfig}
  */
-const config = withMetroConfig(getDefaultConfig(__dirname), {
+const config = withMetroConfig(getDefaultConfig(dirname), {
   root,
-  dirname: __dirname,
+  dirname,
   conditions: ['squircle-view-source'],
 });
 

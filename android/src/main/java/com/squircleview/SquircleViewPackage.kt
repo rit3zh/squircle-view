@@ -6,12 +6,11 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.uimanager.ViewManager
 
-class SquircleViewViewPackage : BaseReactPackage() {
-  override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> {
-    return listOf(SquircleViewViewManager())
-  }
+public class SquircleViewPackage : BaseReactPackage() {
+  override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> =
+      listOf(SquircleViewManager())
 
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? = null
 
-  override fun getReactModuleInfoProvider() = ReactModuleInfoProvider { emptyMap() }
+  override fun getReactModuleInfoProvider(): ReactModuleInfoProvider = ReactModuleInfoProvider { emptyMap() }
 }

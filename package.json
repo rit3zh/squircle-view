@@ -1,12 +1,12 @@
 {
   "name": "squircle-view",
   "version": "0.1.0",
-  "description": "testing for now.",
+  "description": "A drop-in React Native View with smooth, continuous corners.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "exports": {
     ".": {
-      "squircle-view-source": "./src/index.tsx",
+      "squircle-view-source": "./src/index.ts",
       "types": "./lib/typescript/src/index.d.ts",
       "default": "./lib/module/index.js"
     },
@@ -17,7 +17,7 @@
     "lib",
     "android",
     "ios",
-    "cpp",
+    "common",
     "*.podspec",
     "react-native.config.js",
     "!ios/build",
@@ -38,12 +38,19 @@
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "test": "jest",
-    "release": "release-it --only-version"
+    "test:native": "mkdir -p build && c++ -std=c++20 -Wall -Wextra -Werror -Icommon/cpp common/cpp/SquircleGeometry.cpp common/cpp/__tests__/SquircleGeometryTests.cpp -o build/squircle-geometry-tests && ./build/squircle-geometry-tests",
+    "release": "release-it --only-version",
+    "test:watch": "jest --watch"
   },
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "squircle",
+    "smooth-corners",
+    "continuous-corners",
+    "border-radius",
+    "view"
   ],
   "repository": {
     "type": "git",
@@ -68,7 +75,9 @@
     "@react-native/eslint-config": "0.86.2",
     "@react-native/jest-preset": "0.86.2",
     "@release-it/conventional-changelog": "^12.0.0",
+    "@testing-library/react-native": "^13",
     "@types/react": "^19.2.0",
+    "@types/react-test-renderer": "^19",
     "commitlint": "^21.2.1",
     "del-cli": "^7.0.0",
     "eslint": "^9.39.5",
@@ -81,6 +90,7 @@
     "react": "19.2.3",
     "react-native": "0.86.3",
     "react-native-builder-bob": "^0.43.1",
+    "react-test-renderer": "19.2.3",
     "release-it": "^21.0.1",
     "turbo": "^2.10.8",
     "typescript": "^6.0.3"
@@ -112,16 +122,16 @@
     ]
   },
   "codegenConfig": {
-    "name": "SquircleViewViewSpec",
-    "type": "all",
-    "jsSrcsDir": "src",
+    "name": "SquircleViewSpec",
+    "type": "components",
+    "jsSrcsDir": "src/views",
     "android": {
       "javaPackageName": "com.squircleview"
     },
     "ios": {
       "components": {
-        "SquircleViewView": {
-          "className": "SquircleViewView"
+        "SquircleView": {
+          "className": "SquircleView"
         }
       }
     }
@@ -139,12 +149,19 @@
       "customExportConditions": [
         "require",
         "react-native",
-        "<%- project.sourceCondition -%>"
+        "squircle-view-source"
       ]
     },
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?|@testing-library)/)"
+    ],
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",
-      "<rootDir>/lib/"
+      "<rootDir>/lib/",
+      "<rootDir>/inspo/"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.test.ts?(x)"
     ]
   },
   "commitlint": {
